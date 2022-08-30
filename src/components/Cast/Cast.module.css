@@ -1,0 +1,23 @@
+.Item {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.Item:not(:last-child) {
+  margin-bottom: 15px;
+}
+.Name {
+  font-size: 20px;
+  font-weight: 500;
+  color: darkred;
+}
+.NoPhoto {
+  padding: 30px 15px;
+  width: 110px;
+  height: 150px;
+  background-color: beige;
+  text-align: center;
+  border: 3px solid rgb(173, 173, 152);
+  border-radius: 5px;
+}

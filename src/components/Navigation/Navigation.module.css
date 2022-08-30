@@ -1,0 +1,26 @@
+.Nav {
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 50px;
+  border-bottom: 2px solid rgba(119, 136, 153, 0.658);
+}
+
+.Link {
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: none;
+  min-width: 150px;
+  height: 70px;
+  padding: 7px 20px;
+  color: rgb(118, 8, 221);
+  background-color: aquamarine;
+  border-radius: 5px;
+  border: 2px solid blueviolet;
+}
+
+.Link:not(:last-child) {
+  margin-right: 30px;
+}
+a.Link.active {
+  background-color: bisque;
+}
