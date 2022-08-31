@@ -1,36 +1,52 @@
-import { useState, useEffect, useRef } from 'react';
-// import axios from 'axios';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
+
 import SearchForm from '../components/SearchForm/SearchForm';
+import MovieItem from '../components/MovieItem/MovieItem';
 
 function MoviesPage() {
-  const [search, setSearch] = useState('');
-  // const [error, setError] = useState(null);
-  const prevSearch = useRef('');
+  const [movies, setMovies] = useState('');
+  const [error, setError] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryName = searchParams.get('query') ?? '';
+  console.log('queryName', queryName);
+
+  const updateQueryString = query => {
+    const nextParams = query !== '' ? { query } : {};
+    setSearchParams(nextParams);
+  };
 
   useEffect(() => {
-    prevSearch.current = search;
+    if (!queryName) {
+      return;
+    }
     async function findMovies() {
-      console.log('search', prevSearch.current);
-      // try {
-      //   const response = await axios.get(
-      //     ` https://api.themoviedb.org/3/${prevSearch.current}/movie/?api_key=5b0447e2e1e726ae474ba46ec861fdf3&language=en-US&page=1&include_adult=false`
-      //   );
-      //   console.log('response', response.data);
-      //   // setMovie(response.data);
-      //   // console.log('movie', movie);
-      // } catch (error) {
-      //   setError(error);
-      // }
+      try {
+        const response = await axios.get(
+          ` https://api.themoviedb.org/3/search/movie/?api_key=5b0447e2e1e726ae474ba46ec861fdf3&language=en-US&page=1&query=${queryName}`
+        );
+        console.log('response', response.data.results);
+        setMovies(response.data.results);
+        // console.log('movie', movie);
+      } catch (error) {
+        setError(error);
+      }
     }
     findMovies();
-  }, [search]);
+  }, [queryName]);
 
-  function getQuery(query) {
-    setSearch(query);
-  }
   return (
     <main>
-      <SearchForm onSubmit={getQuery} />
+      <SearchForm onSubmit={updateQueryString} />
+      {movies.length !== 0 && (
+        <ul>
+          {movies.map(({ id, title, name }) => (
+            <MovieItem key={id} id={id} title={title} name={name} />
+          ))}
+        </ul>
+      )}
+      {error && <h2>{error.message}</h2>}
     </main>
   );
 }

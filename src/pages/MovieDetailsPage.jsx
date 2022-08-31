@@ -2,6 +2,7 @@ import { useParams, Outlet, NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import Button from '../components/Button/Button';
 import s from '../components/MoviesList/MoviesList.module.css';
 function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -27,6 +28,7 @@ function MovieDetailsPage() {
     <main>
       {movie && (
         <>
+          <Button title="GO BACK" />
           <h2>{movie.original_title}</h2>
           <div className={s.Card}>
             <img

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import Button from '../Button/Button';
 import s from './SearchForm.module.css';
 function SearchForm({ onSubmit }) {
   const [query, setQuery] = useState('');
@@ -10,7 +11,7 @@ function SearchForm({ onSubmit }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log('forma' + new Date());
+    // console.log('forma' + new Date());
     if (query.trim() === '') {
       alert('Введіть запит!');
       return;
@@ -21,7 +22,7 @@ function SearchForm({ onSubmit }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={s.Form}>
         <input
           type="text"
           name="query"
@@ -30,9 +31,8 @@ function SearchForm({ onSubmit }) {
           onChange={handleChange}
           className={s.Input}
         />
-        <button type="submit" className={s.Btn}>
-          Знайти
-        </button>
+        <Button type="submit" title="Знайти" />
+        {/* <button type="submit">Знайти</button> */}
       </form>
     </>
   );

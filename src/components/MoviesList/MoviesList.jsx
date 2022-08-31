@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
-import s from './MoviesList.module.css';
+import MovieItem from '../MovieItem/MovieItem';
+// import s from './MoviesList.module.css';
 
 function MoviesList() {
   const [movies, setMovies] = useState([]);
@@ -14,13 +14,11 @@ function MoviesList() {
         const response = await axios.get(
           'https://api.themoviedb.org/3/trending/all/day?api_key=5b0447e2e1e726ae474ba46ec861fdf3'
         );
-        console.log('response', response.data.results);
+        // console.log('response', response.data.results);
         setMovies(response.data.results);
       } catch (error) {
         setError(error);
       }
-
-      //   return response;
     }
     findMovies();
   }, []);
@@ -29,11 +27,7 @@ function MoviesList() {
       {movies.length !== 0 && (
         <ul>
           {movies.map(({ id, title, name }) => (
-            <li key={id} className={s.Item}>
-              <Link to={`/movie/${id}`}>
-                {title} {name}
-              </Link>
-            </li>
+            <MovieItem key={id} id={id} title={title} name={name} />
           ))}
         </ul>
       )}

@@ -4,10 +4,20 @@ function Navigation() {
   return (
     <>
       <nav className={s.Nav}>
-        <NavLink to="/" className={s.Link}>
+        <NavLink
+          to="/"
+          className={props => {
+            return props.isActive ? s.Active : s.Link;
+          }}
+        >
           Головна
         </NavLink>
-        <NavLink to="/movie" className={s.Link}>
+        <NavLink
+          to="/movie"
+          className={props => {
+            return props.isActive ? s.Active : s.Link;
+          }}
+        >
           Фільми
         </NavLink>
       </nav>
