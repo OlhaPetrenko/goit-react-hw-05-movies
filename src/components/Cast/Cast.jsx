@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import s from './Cast.module.css';
@@ -22,6 +22,8 @@ function Cast() {
     }
     findCast();
   }, [movieId]);
+  console.log('useLocation', useLocation());
+
   return (
     <>
       {cast && (

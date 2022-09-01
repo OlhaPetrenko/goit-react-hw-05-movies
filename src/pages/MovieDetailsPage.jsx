@@ -1,9 +1,21 @@
-import { useParams, Outlet, NavLink } from 'react-router-dom';
+import {
+  useParams,
+  Outlet,
+  NavLink,
+  useNavigate,
+  useLocation,
+  Link,
+} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import Button from '../components/Button/Button';
-import s from '../components/MoviesList/MoviesList.module.css';
+import Button from 'components/Button/Button';
+import s from '../components/TrendMovies/TrendMovies.module.css';
+
+function getClassName(props) {
+  return props.isActive ? `${s.Active} ${s.Link}` : s.Link;
+}
+
 function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
@@ -15,20 +27,31 @@ function MovieDetailsPage() {
         const response = await axios.get(
           ` https://api.themoviedb.org/3/movie/${movieId}?api_key=5b0447e2e1e726ae474ba46ec861fdf3&language=en-US`
         );
-        // console.log('response', response.data);
         setMovie(response.data);
-        // console.log('movie', movie);
       } catch (error) {
         setError(error);
       }
     }
     findMovieDetails();
   }, [movieId]);
+
+  const location = useLocation();
+  console.log('MovieDetailsPage', location);
+  // console.log(location.state.from);
+  const backLink = location.state;
+
+  const navigate = useNavigate();
+  function goBack() {
+    return navigate(`${location.state.pathname}${location.state.search}`);
+  }
   return (
     <main>
       {movie && (
         <>
-          <Button title="GO BACK" />
+          {/* <Button to={backLink} onClick={goBack}>   GO BACK
+          </Button> */}
+          <Button type="button" title="> GO BACK <" onClick={goBack} />
+
           <h2>{movie.original_title}</h2>
           <div className={s.Card}>
             <img
@@ -45,12 +68,24 @@ function MovieDetailsPage() {
             </div>
           </div>
           <h3>Additional information</h3>
-          <ul>
+          <ul className={s.List}>
             <li className={s.Item}>
-              <NavLink to="cast">Cast</NavLink>
+              <NavLink
+                to="cast"
+                className={getClassName}
+                state={{ ...location.state }}
+              >
+                Cast
+              </NavLink>
             </li>
-            <li>
-              <NavLink to="reviews">Reviews</NavLink>
+            <li className={s.Item}>
+              <NavLink
+                to="reviews"
+                className={getClassName}
+                state={{ ...location.state }}
+              >
+                Reviews
+              </NavLink>
             </li>
           </ul>
         </>
@@ -61,8 +96,6 @@ function MovieDetailsPage() {
           <p>{error.message}</p>
         </>
       )}
-
-      <hr />
       <Outlet />
     </main>
   );

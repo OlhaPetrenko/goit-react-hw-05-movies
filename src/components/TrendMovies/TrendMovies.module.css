@@ -1,27 +1,26 @@
-.Nav {
-  padding: 30px;
-  text-align: center;
+/* ======================== MovieDetailsPage */
+.Card {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.List {
+  padding: 30px 5px;
   margin-bottom: 50px;
   border-bottom: 2px solid rgba(119, 136, 153, 0.658);
-  gap: 30px;
-  display: flex;
 
-  justify-content: center;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    #f6ba52,
-    #f6ba52 10px,
-    #ffd180 10px,
-    #ffd180 20px
-  );
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
 }
 
 .Link {
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  min-width: 150px;
-  height: 50px;
+  min-width: 100px;
+  /* height: 50px; */
   padding: 7px 20px;
   color: rgba(118, 8, 221, 0.469);
   border-radius: 5px;

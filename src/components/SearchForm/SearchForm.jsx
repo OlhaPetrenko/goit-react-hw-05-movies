@@ -11,7 +11,7 @@ function SearchForm({ onSubmit }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // console.log('forma' + new Date());
+
     if (query.trim() === '') {
       alert('Введіть запит!');
       return;
@@ -32,7 +32,6 @@ function SearchForm({ onSubmit }) {
           className={s.Input}
         />
         <Button type="submit" title="Знайти" />
-        {/* <button type="submit">Знайти</button> */}
       </form>
     </>
   );

@@ -7,7 +7,7 @@ function Navigation() {
         <NavLink
           to="/"
           className={props => {
-            return props.isActive ? s.Active : s.Link;
+            return props.isActive ? `${s.Active} ${s.Link}` : s.Link;
           }}
         >
           Головна
@@ -15,7 +15,7 @@ function Navigation() {
         <NavLink
           to="/movie"
           className={props => {
-            return props.isActive ? s.Active : s.Link;
+            return props.isActive ? `${s.Active} ${s.Link}` : s.Link;
           }}
         >
           Фільми

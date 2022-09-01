@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 
 import SearchForm from '../components/SearchForm/SearchForm';
-import MovieItem from '../components/MovieItem/MovieItem';
+import MoviesList from '../components/MoviesList/MoviesList';
 
 function MoviesPage() {
   const [movies, setMovies] = useState('');
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const queryName = searchParams.get('query') ?? '';
-  console.log('queryName', queryName);
+  // console.log('queryName', queryName);
 
   const updateQueryString = query => {
     const nextParams = query !== '' ? { query } : {};
@@ -28,7 +28,6 @@ function MoviesPage() {
         );
         console.log('response', response.data.results);
         setMovies(response.data.results);
-        // console.log('movie', movie);
       } catch (error) {
         setError(error);
       }
@@ -39,13 +38,7 @@ function MoviesPage() {
   return (
     <main>
       <SearchForm onSubmit={updateQueryString} />
-      {movies.length !== 0 && (
-        <ul>
-          {movies.map(({ id, title, name }) => (
-            <MovieItem key={id} id={id} title={title} name={name} />
-          ))}
-        </ul>
-      )}
+      {movies.length !== 0 && <MoviesList movies={movies} />}
       {error && <h2>{error.message}</h2>}
     </main>
   );

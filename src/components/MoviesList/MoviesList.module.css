@@ -1,9 +1,4 @@
-/* ======================== MovieDetailsPage */
-.Card {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.List {
+.Item {
+  padding: 5px 0;
+  font-size: 18px;
 }
