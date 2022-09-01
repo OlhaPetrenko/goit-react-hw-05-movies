@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 import MoviesList from '../MoviesList/MoviesList';
 // import s from './MoviesList.module.css';

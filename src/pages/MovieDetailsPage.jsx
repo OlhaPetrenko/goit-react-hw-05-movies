@@ -4,7 +4,6 @@ import {
   NavLink,
   useNavigate,
   useLocation,
-  Link,
 } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -38,7 +37,7 @@ function MovieDetailsPage() {
   const location = useLocation();
   console.log('MovieDetailsPage', location);
   // console.log(location.state.from);
-  const backLink = location.state;
+  // const backLink = location.state;
 
   const navigate = useNavigate();
   function goBack() {

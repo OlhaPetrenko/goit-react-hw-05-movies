@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import SearchForm from '../components/SearchForm/SearchForm';
 import MoviesList from '../components/MoviesList/MoviesList';
