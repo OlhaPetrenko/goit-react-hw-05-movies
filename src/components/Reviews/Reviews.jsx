@@ -3,21 +3,28 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import s from './Reviews.module.css';
+
+const BASEURL = 'https://api.themoviedb.org/3';
+const KEY = '5b0447e2e1e726ae474ba46ec861fdf3';
 function Reviews() {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  console.log('movieId', movieId);
+
   useEffect(() => {
     async function findReviews() {
       try {
+        setLoading(true);
         const response = await axios.get(
-          ` https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=5b0447e2e1e726ae474ba46ec861fdf3&language=en-US`
+          ` ${BASEURL}/movie/${movieId}/reviews?api_key=${KEY}&language=en-US`
         );
-        console.log('response', response.data.results);
+
         setReviews(response.data.results);
       } catch (error) {
         setError(error);
+      } finally {
+        setLoading(false);
       }
     }
     findReviews();
@@ -25,6 +32,9 @@ function Reviews() {
 
   return (
     <>
+      {loading && (
+        <h2 className={s.Load}>Відбувається завантаження даних...</h2>
+      )}
       {reviews && (
         <ul>
           {reviews.map(({ id, content, author }) => (
@@ -35,7 +45,7 @@ function Reviews() {
           ))}
         </ul>
       )}
-      {reviews.length === 0 && (
+      {reviews.length === 0 && !loading && (
         <h3>
           {' '}
           На жаль, жодного відгуку стосовно обраного фільму ще немає :-(((

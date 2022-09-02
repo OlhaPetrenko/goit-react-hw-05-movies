@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '../Button/Button';
 import s from './SearchForm.module.css';
+
 function SearchForm({ onSubmit }) {
   const [query, setQuery] = useState('');
   function handleChange(event) {
     setQuery(event.currentTarget.value.toLowerCase());
-    console.log(event.currentTarget.value.toLowerCase());
+    // console.log(event.currentTarget.value.toLowerCase());
   }
 
   function handleSubmit(event) {
@@ -36,5 +38,9 @@ function SearchForm({ onSubmit }) {
     </>
   );
 }
+
+SearchForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SearchForm;

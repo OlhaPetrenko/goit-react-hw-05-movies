@@ -14,41 +14,49 @@ import s from '../components/TrendMovies/TrendMovies.module.css';
 function getClassName(props) {
   return props.isActive ? `${s.Active} ${s.Link}` : s.Link;
 }
+const BASEURL = 'https://api.themoviedb.org/3';
+const KEY = '5b0447e2e1e726ae474ba46ec861fdf3';
 
 function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function findMovieDetails() {
       try {
+        setStatus('pending');
         const response = await axios.get(
-          ` https://api.themoviedb.org/3/movie/${movieId}?api_key=5b0447e2e1e726ae474ba46ec861fdf3&language=en-US`
+          ` ${BASEURL}/movie/${movieId}?api_key=${KEY}&language=en-US`
         );
         setMovie(response.data);
+        setStatus('resolved');
       } catch (error) {
         setError(error);
+        setStatus('rejected');
       }
     }
     findMovieDetails();
   }, [movieId]);
 
   const location = useLocation();
-  console.log('MovieDetailsPage', location);
-  // console.log(location.state.from);
-  // const backLink = location.state;
+  const from = location.state?.from || '/';
 
   const navigate = useNavigate();
   function goBack() {
-    return navigate(`${location.state.pathname}${location.state.search}`);
+    return navigate(from);
   }
+  // function goBack() {
+  //   return navigate(`${location.state.pathname}${location.state.search}`);
+  // }
   return (
     <main>
-      {movie && (
+      {status === 'pending' && (
+        <h2 className={s.Load}>Відбувається завантаження даних...</h2>
+      )}
+      {status === 'resolved' && movie && (
         <>
-          {/* <Button to={backLink} onClick={goBack}>   GO BACK
-          </Button> */}
           <Button type="button" title="> GO BACK <" onClick={goBack} />
 
           <h2>{movie.original_title}</h2>
@@ -69,32 +77,21 @@ function MovieDetailsPage() {
           <h3>Additional information</h3>
           <ul className={s.List}>
             <li className={s.Item}>
-              <NavLink
-                to="cast"
-                className={getClassName}
-                state={{ ...location.state }}
-              >
+              <NavLink to="cast" className={getClassName} state={{ from }}>
                 Cast
               </NavLink>
             </li>
             <li className={s.Item}>
-              <NavLink
-                to="reviews"
-                className={getClassName}
-                state={{ ...location.state }}
-              >
+              <NavLink to="reviews" className={getClassName} state={{ from }}>
                 Reviews
               </NavLink>
             </li>
           </ul>
         </>
       )}
-      {error && (
-        <>
-          <h2>Щось пішло не так :((( </h2>
-          <p>{error.message}</p>
-        </>
-      )}
+      {status === 'resolved' && !movie && <h2>Щось пішло не так :((( </h2>}
+      {status === 'rejected' && <h1>{error.message}</h1>}
+
       <Outlet />
     </main>
   );
